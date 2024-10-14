@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Múltiples QR</title>
+    <style>
+        /* Estilos generales */
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        /* Contenedor principal */
+        .qr-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            max-width: 900px;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+        }
+        /* Estilo para cada caja de QR */
+        .qr-box {
+            text-align: center;
+        }
+        .qr-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #555;
+        }
+        /* Ajustes de estilo de QR */
+        #qrcode1, #qrcode2, #qrcode3, #qrcode4 {
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <div>
+        <h1>Códigos QR Modernos</h1>
+        <div class="qr-container">
+            <!-- Caja de QR 1 -->
+            <div class="qr-box">
+                <div class="qr-title">Enlace a Google</div>
+                <div id="qrcode1"></div>
+            </div>
+            <!-- Caja de QR 2 -->
+            <div class="qr-box">
+                <div class="qr-title">Enlace a Facebook</div>
+                <div id="qrcode2"></div>
+            </div>
+            <!-- Caja de QR 3 -->
+            <div class="qr-box">
+                <div class="qr-title">Enlace a GitHub</div>
+                <div id="qrcode3"></div>
+            </div>
+            <!-- Caja de QR 4 -->
+            <div class="qr-box">
+                <div class="qr-title">Enlace a Instagram</div>
+                <div id="qrcode4"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script>
+        // Función para generar los códigos QR
+        function generarQRCodigos() {
+            // QR 1 - Google
+            var qrcode1 = new QRCode(document.getElementById("qrcode1"), {
+                text: "https://www.google.com",
+                width: 200,
+                height: 200
+            });
+            
+            // QR 2 - Facebook
+            var qrcode2 = new QRCode(document.getElementById("qrcode2"), {
+                text: "https://www.facebook.com",
+                width: 200,
+                height: 200
+            });
+            
+            // QR 3 - GitHub
+            var qrcode3 = new QRCode(document.getElementById("qrcode3"), {
+                text: "https://www.github.com",
+                width: 200,
+                height: 200
+            });
+            
+            // QR 4 - Instagram
+            var qrcode4 = new QRCode(document.getElementById("qrcode4"), {
+                text: "https://www.instagram.com",
+                width: 200,
+                height: 200
+            });
+        }
+
+        // Llama a la función al cargar la página
+        window.onload = generarQRCodigos;
+    </script>
+
+</body>
+</html>
