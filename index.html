@@ -66,7 +66,7 @@
         #qrcode1, #qrcode2, #qrcode3, #qrcode4,
         #qrcode5, #qrcode6, #qrcode7, #qrcode8 {
             width: 200px; /* Aumentar el tamaño a 200 */
-            height: 200px; /* Aumentar el tamaño a 200 */
+            height: 200; /* Aumentar el tamaño a 200 */
             margin: auto;
             transition: transform 0.3s;
         }
@@ -193,13 +193,14 @@
 
         // Función para redirigir al hacer clic
         function redirigir(url) {
-            alert("La dirección es: " + url); // Muestra la dirección
+            // Pregunta de confirmación
+            if (confirm("¿Quieres ir al siguiente vínculo?")) {
+                window.location.href = url;
+            }
         }
 
-        // Generar QR al cargar la página
-        window.onload = function() {
-            generarQRCodigos();
-        };
+        // Generar los códigos QR al cargar la página
+        window.onload = generarQRCodigos;
     </script>
 </body>
 </html>
