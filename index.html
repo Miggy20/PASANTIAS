@@ -80,6 +80,44 @@
         .qr-box:hover #qrcode8 {
             transform: scale(1.05); /* Aumenta el tamaño del QR al hacer hover */
         }
+        /* Estilos del cuadro de diálogo */
+        .dialog {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            z-index: 1000; /* Asegura que esté por encima de otros elementos */
+            padding: 20px;
+            text-align: center;
+        }
+        .dialog button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .dialog button:hover {
+            background-color: #0056b3;
+        }
+        /* Fondo oscuro al abrir el cuadro de diálogo */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999; /* Asegura que esté detrás del diálogo */
+        }
     </style>
 </head>
 <body>
@@ -88,46 +126,54 @@
         <h1>Códigos QR Modernos</h1>
         <div class="qr-container">
             <!-- Caja de QR 1 -->
-            <div class="qr-box" onclick="redirigir('https://www.google.com')">
+            <div class="qr-box" onclick="mostrarDialogo('https://www.google.com')">
                 <div class="qr-title">Enlace a Google</div>
                 <div id="qrcode1"></div>
             </div>
             <!-- Caja de QR 2 -->
-            <div class="qr-box" onclick="redirigir('https://www.facebook.com')">
+            <div class="qr-box" onclick="mostrarDialogo('https://www.facebook.com')">
                 <div class="qr-title">Enlace a Facebook</div>
                 <div id="qrcode2"></div>
             </div>
             <!-- Caja de QR 3 -->
-            <div class="qr-box" onclick="redirigir('https://www.github.com')">
+            <div class="qr-box" onclick="mostrarDialogo('https://www.github.com')">
                 <div class="qr-title">Enlace a GitHub</div>
                 <div id="qrcode3"></div>
             </div>
             <!-- Caja de QR 4 -->
-            <div class="qr-box" onclick="redirigir('https://www.instagram.com')">
+            <div class="qr-box" onclick="mostrarDialogo('https://www.instagram.com')">
                 <div class="qr-title">Enlace a Instagram</div>
                 <div id="qrcode4"></div>
             </div>
             <!-- Caja de QR 5 -->
-            <div class="qr-box" onclick="redirigir('https://www.youtube.com')">
+            <div class="qr-box" onclick="mostrarDialogo('https://www.youtube.com')">
                 <div class="qr-title">Enlace a YouTube</div>
                 <div id="qrcode5"></div>
             </div>
             <!-- Caja de QR 6 -->
-            <div class="qr-box" onclick="redirigir('https://www.twitter.com')">
+            <div class="qr-box" onclick="mostrarDialogo('https://www.twitter.com')">
                 <div class="qr-title">Enlace a Twitter</div>
                 <div id="qrcode6"></div>
             </div>
             <!-- Caja de QR 7 -->
-            <div class="qr-box" onclick="redirigir('https://www.linkedin.com')">
+            <div class="qr-box" onclick="mostrarDialogo('https://www.linkedin.com')">
                 <div class="qr-title">Enlace a LinkedIn</div>
                 <div id="qrcode7"></div>
             </div>
             <!-- Caja de QR 8 -->
-            <div class="qr-box" onclick="redirigir('https://www.tiktok.com')">
+            <div class="qr-box" onclick="mostrarDialogo('https://www.tiktok.com')">
                 <div class="qr-title">Enlace a TikTok</div>
                 <div id="qrcode8"></div>
             </div>
         </div>
+    </div>
+
+    <!-- Cuadro de diálogo -->
+    <div class="overlay" id="overlay"></div>
+    <div class="dialog" id="dialog">
+        <p>¿Quieres ir al siguiente vínculo?</p>
+        <button id="confirmar">Aceptar</button>
+        <button id="cancelar">Cancelar</button>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -191,12 +237,23 @@
             });
         }
 
-        // Función para redirigir al hacer clic
-        function redirigir(url) {
-            // Pregunta de confirmación
-            if (confirm("¿Quieres ir al siguiente vínculo?")) {
-                window.location.href = url;
-            }
+        // Función para mostrar el cuadro de diálogo
+        function mostrarDialogo(url) {
+            document.getElementById("overlay").style.display = "block";
+            document.getElementById("dialog").style.display = "block";
+            // Almacena la URL para usarla después
+            document.getElementById("confirmar").onclick = function() {
+                window.location.href = url; // Redirigir a la URL
+            };
+            document.getElementById("cancelar").onclick = function() {
+                ocultarDialogo(); // Ocultar diálogo
+            };
+        }
+
+        // Función para ocultar el cuadro de diálogo
+        function ocultarDialogo() {
+            document.getElementById("overlay").style.display = "none";
+            document.getElementById("dialog").style.display = "none";
         }
 
         // Generar los códigos QR al cargar la página
