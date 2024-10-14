@@ -37,7 +37,7 @@
             border-radius: 12px;
             transition: transform 0.3s;
         }
-        /* Estilo para cada caja de QR */
+       /* Estilo para cada caja de QR */
         .qr-box {
             display: flex; /* Cambiado a flex para ajustar el contenido */
             flex-direction: column;
@@ -51,6 +51,14 @@
             transition: transform 0.3s, box-shadow 0.3s;
             text-align: center; /* Centra el texto */
         }
+        
+        /* Media Query para pantallas pequeñas */
+        @media (max-width: 600px) {
+            .qr-box {
+                width: calc(100% - 20px); /* Ajusta el ancho a 100% en pantallas pequeñas */
+            }
+        }
+
         .qr-box:hover {
             transform: translateY(-5px);
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
