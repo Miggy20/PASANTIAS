@@ -13,37 +13,71 @@
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            background-color: #f0f0f0;
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
         }
         h1 {
             text-align: center;
             margin-bottom: 20px;
             color: #333;
+            font-size: 2.5em;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
         }
         /* Contenedor principal */
         .qr-container {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Aumentar el tamaño mínimo */
+            gap: 20px; /* Ajusta el espacio entre las cajas */
             max-width: 900px;
             padding: 20px;
-            background-color: #fff;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
             border-radius: 12px;
+            transition: transform 0.3s;
+        }
+        .qr-container:hover {
+            transform: scale(1.02);
         }
         /* Estilo para cada caja de QR */
         .qr-box {
             text-align: center;
+            cursor: pointer;
+            background: linear-gradient(145deg, #f7f7f7, #e0e0e0);
+            border-radius: 12px;
+            padding: 20px; /* Ajustar padding para mayor tamaño */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .qr-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
         }
         .qr-title {
-            font-size: 18px;
+            font-size: 16px; /* Tamaño del texto */
             font-weight: bold;
             margin-bottom: 10px;
             color: #555;
+            transition: color 0.3s;
+        }
+        .qr-box:hover .qr-title {
+            color: #007bff; /* Cambia el color del título al hacer hover */
         }
         /* Ajustes de estilo de QR */
-        #qrcode1, #qrcode2, #qrcode3, #qrcode4 {
+        #qrcode1, #qrcode2, #qrcode3, #qrcode4,
+        #qrcode5, #qrcode6, #qrcode7, #qrcode8 {
+            width: 200px; /* Aumentar el tamaño a 200 */
+            height: 200px; /* Aumentar el tamaño a 200 */
             margin: auto;
+            transition: transform 0.3s;
+        }
+        .qr-box:hover #qrcode1, 
+        .qr-box:hover #qrcode2, 
+        .qr-box:hover #qrcode3, 
+        .qr-box:hover #qrcode4,
+        .qr-box:hover #qrcode5,
+        .qr-box:hover #qrcode6,
+        .qr-box:hover #qrcode7,
+        .qr-box:hover #qrcode8 {
+            transform: scale(1.05); /* Aumenta el tamaño del QR al hacer hover */
         }
     </style>
 </head>
@@ -53,24 +87,44 @@
         <h1>Códigos QR Modernos</h1>
         <div class="qr-container">
             <!-- Caja de QR 1 -->
-            <div class="qr-box">
+            <div class="qr-box" onclick="redirigir('https://www.google.com')">
                 <div class="qr-title">Enlace a Google</div>
                 <div id="qrcode1"></div>
             </div>
             <!-- Caja de QR 2 -->
-            <div class="qr-box">
+            <div class="qr-box" onclick="redirigir('https://www.facebook.com')">
                 <div class="qr-title">Enlace a Facebook</div>
                 <div id="qrcode2"></div>
             </div>
             <!-- Caja de QR 3 -->
-            <div class="qr-box">
+            <div class="qr-box" onclick="redirigir('https://www.github.com')">
                 <div class="qr-title">Enlace a GitHub</div>
                 <div id="qrcode3"></div>
             </div>
             <!-- Caja de QR 4 -->
-            <div class="qr-box">
+            <div class="qr-box" onclick="redirigir('https://www.instagram.com')">
                 <div class="qr-title">Enlace a Instagram</div>
                 <div id="qrcode4"></div>
+            </div>
+            <!-- Caja de QR 5 -->
+            <div class="qr-box" onclick="redirigir('https://www.youtube.com')">
+                <div class="qr-title">Enlace a YouTube</div>
+                <div id="qrcode5"></div>
+            </div>
+            <!-- Caja de QR 6 -->
+            <div class="qr-box" onclick="redirigir('https://www.twitter.com')">
+                <div class="qr-title">Enlace a Twitter</div>
+                <div id="qrcode6"></div>
+            </div>
+            <!-- Caja de QR 7 -->
+            <div class="qr-box" onclick="redirigir('https://www.linkedin.com')">
+                <div class="qr-title">Enlace a LinkedIn</div>
+                <div id="qrcode7"></div>
+            </div>
+            <!-- Caja de QR 8 -->
+            <div class="qr-box" onclick="redirigir('https://www.tiktok.com')">
+                <div class="qr-title">Enlace a TikTok</div>
+                <div id="qrcode8"></div>
             </div>
         </div>
     </div>
@@ -80,37 +134,70 @@
         // Función para generar los códigos QR
         function generarQRCodigos() {
             // QR 1 - Google
-            var qrcode1 = new QRCode(document.getElementById("qrcode1"), {
+            new QRCode(document.getElementById("qrcode1"), {
                 text: "https://www.google.com",
-                width: 200,
-                height: 200
+                width: 200, // Cambiar el tamaño a 200
+                height: 200 // Cambiar el tamaño a 200
             });
             
             // QR 2 - Facebook
-            var qrcode2 = new QRCode(document.getElementById("qrcode2"), {
+            new QRCode(document.getElementById("qrcode2"), {
                 text: "https://www.facebook.com",
-                width: 200,
-                height: 200
+                width: 200, // Cambiar el tamaño a 200
+                height: 200 // Cambiar el tamaño a 200
             });
             
             // QR 3 - GitHub
-            var qrcode3 = new QRCode(document.getElementById("qrcode3"), {
+            new QRCode(document.getElementById("qrcode3"), {
                 text: "https://www.github.com",
-                width: 200,
-                height: 200
+                width: 200, // Cambiar el tamaño a 200
+                height: 200 // Cambiar el tamaño a 200
             });
             
             // QR 4 - Instagram
-            var qrcode4 = new QRCode(document.getElementById("qrcode4"), {
+            new QRCode(document.getElementById("qrcode4"), {
                 text: "https://www.instagram.com",
-                width: 200,
-                height: 200
+                width: 200, // Cambiar el tamaño a 200
+                height: 200 // Cambiar el tamaño a 200
             });
+            
+            // QR 5 - YouTube
+            new QRCode(document.getElementById("qrcode5"), {
+                text: "https://www.youtube.com",
+                width: 200, // Cambiar el tamaño a 200
+                height: 200 // Cambiar el tamaño a 200
+            });
+            
+            // QR 6 - Twitter
+            new QRCode(document.getElementById("qrcode6"), {
+                text: "https://www.twitter.com",
+                width: 200, // Cambiar el tamaño a 200
+                height: 200 // Cambiar el tamaño a 200
+            });
+            
+            // QR 7 - LinkedIn
+            new QRCode(document.getElementById("qrcode7"), {
+                text: "https://www.linkedin.com",
+                width: 200, // Cambiar el tamaño a 200
+                height: 200 // Cambiar el tamaño a 200
+            });
+            
+            // QR 8 - TikTok
+            new QRCode(document.getElementById("qrcode8"), {
+                text: "https://www.tiktok.com",
+                width: 200, // Cambiar el tamaño a 200
+                height: 200 // Cambiar el tamaño a 200
+            });
+        }
+
+        // Función para redirigir al hacer clic
+        function redirigir(url) {
+            alert("La dirección es: " + url); // Muestra la dirección
+            window.location.href = url; // Redirige a la URL
         }
 
         // Llama a la función al cargar la página
         window.onload = generarQRCodigos;
     </script>
-
 </body>
 </html>
