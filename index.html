@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Generador de Múltiples QR</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
     <style>
         /* Estilos generales */
         body {
@@ -37,13 +39,14 @@
         }
         /* Estilo para cada caja de QR */
         .qr-box {
-            display: inline-block; /* Permite que el fondo se ajuste al contenido */
+            display: flex; /* Cambiado a flex para ajustar el contenido */
             flex-direction: column;
             align-items: center; /* Centra el contenido dentro de la caja */
             cursor: pointer;
             background: linear-gradient(145deg, #f7f7f7, #e0e0e0);
             border-radius: 12px;
-            padding: 20px; /* Ajustar padding para mayor tamaño */
+            padding: 10px; /* Ajustar padding para mayor tamaño */
+            width: calc(45% - 20px); /* Ajusta el ancho para dos por fila */
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s, box-shadow 0.3s;
             text-align: center; /* Centra el texto */
@@ -53,9 +56,9 @@
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
         }
         .qr-title {
-            font-size: 16px; /* Tamaño del texto */
+            font-size: 14px; /* Tamaño del texto reducido */
             font-weight: bold;
-            margin-bottom: 10px;
+            margin-bottom: 5px; /* Espaciado reducido */
             color: #555;
             transition: color 0.3s;
         }
@@ -65,8 +68,8 @@
         /* Ajustes de estilo de QR */
         #qrcode1, #qrcode2, #qrcode3, #qrcode4,
         #qrcode5, #qrcode6, #qrcode7, #qrcode8 {
-            width: 200px; /* Aumentar el tamaño a 200 */
-            height: 200; /* Aumentar el tamaño a 200 */
+            width: 200px; /* Reducir tamaño a 200 */
+            height: 200px; /* Reducir tamaño a 200 */
             margin: auto;
             transition: transform 0.3s;
         }
@@ -137,33 +140,33 @@
             </div>
             <!-- Caja de QR 3 -->
             <div class="qr-box" onclick="mostrarDialogo('https://heyzine.com/flip-book/d0c8837cb0.html#page/3')">
-                <div class="qr-title">Enlace requisitos</div>
-                <div id="qrcode3"></div>
+                <div class="qr-title">LEGALIZACION DE LIBRETAS ELECTRONICAS O CERTIFICADO DE CALIFICACIONES REGULAR PRIMARIA</div>
+                <div id="qrcode3">REQUISITOS</div>
             </div>
             <!-- Caja de QR 4 -->
             <div class="qr-box" onclick="mostrarDialogo('https://heyzine.com/flip-book/d0c8837cb0.html#page/3')">
-                <div class="qr-title">Enlace requisitos</div>
-                <div id="qrcode4"></div>
+                <div class="qr-title">LLENADO Y LEGALIZACIONES DE CERTIFICADOS DE UNIDADES EDUCATIVAS CERRADAS REGULAR Y ALTERNATIVA SECUNDARIA</div>
+                <div id="qrcode4">REQUISITOS</div>
             </div>
             <!-- Caja de QR 5 -->
             <div class="qr-box" onclick="mostrarDialogo('https://heyzine.com/flip-book/d0c8837cb0.html#page/4')">
-                <div class="qr-title">Enlace requisitos</div>
-                <div id="qrcode5"></div>
+                <div class="qr-title">DIPLOMA SUPLETORIO DEL DIPLOMA DE BACHILLER DPTO. DE LA PAZ, 2009 EN ADELANTE</div>
+                <div id="qrcode5">REQUISITOS</div>
             </div>
             <!-- Caja de QR 6 -->
             <div class="qr-box" onclick="mostrarDialogo('https://heyzine.com/flip-book/d0c8837cb0.html#page/4')">
-                <div class="qr-title">Enlace requisitos</div>
-                <div id="qrcode6"></div>
+                <div class="qr-title">DIPLOMA DE BACHILLER GRATUITO REZAGADO DPTO. DE LA PAZ, 2009 EN ADELANTE</div>
+                <div id="qrcode6">REQUISITOS</div>
             </div>
             <!-- Caja de QR 7 -->
             <div class="qr-box" onclick="mostrarDialogo('https://heyzine.com/flip-book/d0c8837cb0.html#page/5')">
-                <div class="qr-title">Enlace requisitos</div>
-                <div id="qrcode7"></div>
+                <div class="qr-title">RECTIFICACION, INVERSION , INCLUSION Y EXCLUSION DE NOMBRES Y/O APELLIDOS REGULAR Y ALTERNATIVA NIVEL SECUNDARIO</div>
+                <div id="qrcode7">REQUISITOS</div>
             </div>
             <!-- Caja de QR 8 -->
             <div class="qr-box" onclick="mostrarDialogo('https://heyzine.com/flip-book/d0c8837cb0.html#page/5')">
-                <div class="qr-title">Enlace requisitos</div>
-                <div id="qrcode8"></div>
+                <div class="qr-title">RECTIFICACION, INVERSION INCLUSION Y EXCLUSION DE NOMBRES Y/O APELLIDOS EDUCACION REGULAR NIVEL PRIMARIO</div>
+                <div id="qrcode8">REQUISITOS</div>
             </div>
         </div>
     </div>
@@ -176,88 +179,72 @@
         <button id="cancelar">Cancelar</button>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script>
-        // Función para generar los códigos QR
-        function generarQRCodigos() {
-            // QR 1 - Google
-            new QRCode(document.getElementById("qrcode1"), {
-                text: "https://www.google.com",
-                width: 200, // Cambiar el tamaño a 200
-                height: 200 // Cambiar el tamaño a 200
+        // Generar códigos QR
+        function generarQRCode() {
+            var qrcode1 = new QRCode(document.getElementById("qrcode1"), {
+                text: "https://heyzine.com/flip-book/d0c8837cb0.html#page/2",
+                width: 200,
+                height: 200,
             });
-            
-            // QR 2 - Facebook
-            new QRCode(document.getElementById("qrcode2"), {
-                text: "https://www.facebook.com",
-                width: 200, // Cambiar el tamaño a 200
-                height: 200 // Cambiar el tamaño a 200
+            var qrcode2 = new QRCode(document.getElementById("qrcode2"), {
+                text: "https://heyzine.com/flip-book/d0c8837cb0.html#page/2",
+                width: 200,
+                height: 200,
             });
-            
-            // QR 3 - GitHub
-            new QRCode(document.getElementById("qrcode3"), {
-                text: "https://www.github.com",
-                width: 200, // Cambiar el tamaño a 200
-                height: 200 // Cambiar el tamaño a 200
+            var qrcode3 = new QRCode(document.getElementById("qrcode3"), {
+                text: "https://heyzine.com/flip-book/d0c8837cb0.html#page/3",
+                width: 200,
+                height: 200,
             });
-            
-            // QR 4 - Instagram
-            new QRCode(document.getElementById("qrcode4"), {
-                text: "https://www.instagram.com",
-                width: 200, // Cambiar el tamaño a 200
-                height: 200 // Cambiar el tamaño a 200
+            var qrcode4 = new QRCode(document.getElementById("qrcode4"), {
+                text: "https://heyzine.com/flip-book/d0c8837cb0.html#page/3",
+                width: 200,
+                height: 200,
             });
-            
-            // QR 5 - YouTube
-            new QRCode(document.getElementById("qrcode5"), {
-                text: "https://www.youtube.com",
-                width: 200, // Cambiar el tamaño a 200
-                height: 200 // Cambiar el tamaño a 200
+            var qrcode5 = new QRCode(document.getElementById("qrcode5"), {
+                text: "https://heyzine.com/flip-book/d0c8837cb0.html#page/4",
+                width: 200,
+                height: 200,
             });
-            
-            // QR 6 - Twitter
-            new QRCode(document.getElementById("qrcode6"), {
-                text: "https://www.twitter.com",
-                width: 200, // Cambiar el tamaño a 200
-                height: 200 // Cambiar el tamaño a 200
+            var qrcode6 = new QRCode(document.getElementById("qrcode6"), {
+                text: "https://heyzine.com/flip-book/d0c8837cb0.html#page/4",
+                width: 200,
+                height: 200,
             });
-            
-            // QR 7 - LinkedIn
-            new QRCode(document.getElementById("qrcode7"), {
-                text: "https://www.linkedin.com",
-                width: 200, // Cambiar el tamaño a 200
-                height: 200 // Cambiar el tamaño a 200
+            var qrcode7 = new QRCode(document.getElementById("qrcode7"), {
+                text: "https://heyzine.com/flip-book/d0c8837cb0.html#page/5",
+                width: 200,
+                height: 200,
             });
-            
-            // QR 8 - TikTok
-            new QRCode(document.getElementById("qrcode8"), {
-                text: "https://www.tiktok.com",
-                width: 200, // Cambiar el tamaño a 200
-                height: 200 // Cambiar el tamaño a 200
+            var qrcode8 = new QRCode(document.getElementById("qrcode8"), {
+                text: "https://heyzine.com/flip-book/d0c8837cb0.html#page/5",
+                width: 200,
+                height: 200,
             });
         }
 
-        // Función para mostrar el cuadro de diálogo
+        // Mostrar cuadro de diálogo
         function mostrarDialogo(url) {
-            document.getElementById("overlay").style.display = "block";
-            document.getElementById("dialog").style.display = "block";
-            // Almacena la URL para usarla después
-            document.getElementById("confirmar").onclick = function() {
-                window.location.href = url; // Redirigir a la URL
+            document.getElementById('overlay').style.display = 'block';
+            document.getElementById('dialog').style.display = 'block';
+            document.getElementById('confirmar').onclick = function() {
+                window.location.href = url;
             };
-            document.getElementById("cancelar").onclick = function() {
-                ocultarDialogo(); // Ocultar diálogo
+            document.getElementById('cancelar').onclick = function() {
+                document.getElementById('overlay').style.display = 'none';
+                document.getElementById('dialog').style.display = 'none';
             };
         }
 
-        // Función para ocultar el cuadro de diálogo
-        function ocultarDialogo() {
-            document.getElementById("overlay").style.display = "none";
-            document.getElementById("dialog").style.display = "none";
-        }
+        // Cerrar el diálogo al hacer clic fuera de él
+        document.getElementById('overlay').onclick = function() {
+            this.style.display = 'none';
+            document.getElementById('dialog').style.display = 'none';
+        };
 
-        // Generar los códigos QR al cargar la página
-        window.onload = generarQRCodigos;
+        // Llamar a la función para generar códigos QR
+        generarQRCode();
     </script>
 </body>
 </html>
